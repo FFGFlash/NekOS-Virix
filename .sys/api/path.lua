@@ -66,5 +66,4 @@ function path:execute(args, action, path)
   end
 end
 
-path:call(...)
-return path
+return path:call(...)

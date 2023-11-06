@@ -1,5 +1,10 @@
 local class = require('class')
 
+function combine(t, o)
+  for i,v in ipairs(o) do table.insert(t, v) end
+  return t
+end
+
 local api = class()
 
 api.List = {}
@@ -30,9 +35,9 @@ function api:constructor(priority, completion)
       self.__name = string.match(fs.getName(argv[2]), '([^\.]+)')
       if not self.__completion then return end
       shell.setCompletionFunction(argv[2], self.__completion)
-      return
+      return self
     elseif not self.execute then
-      return
+      return self
     end
 
     local args = { ['_'] = {} }
@@ -61,6 +66,7 @@ function api:constructor(priority, completion)
     end
     name = string.match(fs.getName(name), '([^\.]+)')
     self.execute(_G[name], args, table.unpack(args['_']))
+    return self
   end
 end
 
@@ -133,7 +139,7 @@ function api:buildCompletions(tree)
     local usages = {}
 
     for i,v in ipairs(res) do
-      table.combine(usages, parser(v))
+      combine(usages, parser(v))
     end
 
     return usages
