@@ -86,7 +86,7 @@ local function download(user, repo, dpath, rpath, branch, extract)
   return true
 end
 
-local res, err = download("FFGFlash", "NekOS", "/", nil, nil, true)
+local res, err = download("FFGFlash", "NekOS-Virix", "/", nil, nil, true)
 
 if not res then
   error(err)
