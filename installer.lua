@@ -86,10 +86,14 @@ local function download(user, repo, dpath, rpath, branch, extract)
   return true
 end
 
-local res, err = download("FFGFlash", "NekOS-Virix", "/", nil, nil, true)
+local res, err = download("FFGFlash", "NekOS-Virix", "/.NekOS", ".sys", nil, true)
 
 if not res then
   error(err)
 end
+
+local file = fs.open('/startup.lua', 'w')
+file.write("shell.run('.NekOS/boot')")
+file.close()
 
 os.reboot()

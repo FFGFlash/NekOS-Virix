@@ -1,1 +1,0 @@
-shell.run("/.sys/boot.lua")
