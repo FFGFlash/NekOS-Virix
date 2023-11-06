@@ -2,6 +2,8 @@ local class = require('class')
 
 local api = class()
 
+api.List = {}
+
 function api:constructor(priority, completion)
   local usage = nil
 
