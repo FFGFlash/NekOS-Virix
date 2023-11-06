@@ -92,45 +92,45 @@ end
 
 function api:buildCompletions(tree)
   local function constructUsage(tree)
-    local function simplifier(group)
+    local function simplifier(a)
       local res = {}
-      for i, option in ipairs(group) do
-        if option.type == 'choice' then
-          for choice, cgroup in pairs(option.options) do
-            local cres = simplifier(cgroup)
-            table.insert(cres, 1, choice)
-            table.insert(res, cres)
+      for i,c in ipairs(a) do
+        if c.type == "choice" then
+          for k,v in pairs(c.options) do
+            local b = simplifier(v)
+            table.insert(b, 1, k)
+            table.insert(res, b);
           end
         else
-          table.insert(res, option.required and '<'..option.name..'>' or '['..option.name..']')
+          table.insert(res, c.required and "<"..c.name..">" or "["..c.name.."]")
         end
       end
       return res
     end
 
     local function parser(a)
-      local res, str, pre =  {}, true, ''
-      if type(a) == 'table' then
-        for i, v in ipairs(a) do
-          if type(v) ~= 'string' then
+      local res,str,pre = {},true,""
+      if type(a) == "table" then
+        for i,v in ipairs(a) do
+          if type(v) ~= "string" then
             str = false
             local b = parser(v)
-            for j, w in ipairs(b) do
+            for j,w in ipairs(b) do
               table.insert(res, pre..w)
             end
           else
-            pre = pre..v..' '
+            pre = pre..v.." "
           end
         end
-        if str then table.insert(res, table.concat(a, ' ')) end
-      elseif type(a) == 'string' then
+        if str then table.insert(res, table.concat(a, " ")) end
+      elseif type(a) == "string" then
         table.insert(res, a)
       end
       return res
     end
 
     local res = simplifier(tree)
-    local usage = {}
+    local usages = {}
 
     for i,v in ipairs(res) do
       table.combine(usages, parser(v))
@@ -143,10 +143,10 @@ function api:buildCompletions(tree)
     local function find(tree, offset)
       offset = offset or 0
       if not tree then return {} end
-      for i, v in ipairs(tree) do
+      for i,v in ipairs(tree) do
         if offset + i == index then
           return v
-        elseif v.type == 'choice' then
+        elseif v.type == "choice" then
           offset = offset + i
           return find(v.options[args[offset + 1]], offset)
         end
@@ -156,7 +156,7 @@ function api:buildCompletions(tree)
 
     local cur = find(tree)
     if not cur.type or not Completions[cur.type] then return {} end
-    local a = { current, cur.space or false }
+    local a = {current, cur.space or false}
     if cur.options then table.insert(a, 2, table.keys(cur.options)) end
     return Completions[cur.type](table.unpack(a))
   end
