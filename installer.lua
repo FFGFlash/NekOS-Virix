@@ -50,13 +50,13 @@ local function download(user, repo, dpath, rpath, branch, extract)
         path = path..fpath[i]
 
         if not files[path] then
-          files[path] = { proxy_url..user.."/"..repo.."/"..branch.."?path="..fPath[i], fName[i] }
+          files[path] = { proxy_url..user.."/"..repo.."/"..branch.."?path="..fpath[i], fname[i] }
         end
       elseif data == "dir" then
         path = path..fpath[i]
 
         if not dirs[path] then
-          dirs[path] = { proxy_url..user.."/"..repo.."/"..branch.."?path="..fPath[i], fName[i] }
+          dirs[path] = { proxy_url..user.."/"..repo.."/"..branch.."?path="..fpath[i], fname[i] }
           downloadManager(fpath[i], files, dirs)
         end
       end
