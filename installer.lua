@@ -73,6 +73,7 @@ local function download(user, repo, dpath, rpath, branch, extract)
     if dpath ~= nil and not fs.isDir(dpath) then fs.makeDir(dpath) end
     -- Download the file contents
     local content = http.get(url)
+    print(path)
     -- Write the content to file
     local file = fs.open(path, "w")
     file.write(content.readAll())
@@ -86,14 +87,14 @@ local function download(user, repo, dpath, rpath, branch, extract)
   return true
 end
 
-local res, err = download("FFGFlash", "NekOS-Virix", "/.NekOS", ".sys", nil, true)
+local res, err = download("FFGFlash", "NekOS-Virix", "/", ".sys", nil, true)
 
 if not res then
   error(err)
 end
 
 local file = fs.open('/startup.lua', 'w')
-file.write("shell.run('.NekOS/boot')")
+file.write("shell.run('.sys/boot')")
 file.close()
 
 os.reboot()
