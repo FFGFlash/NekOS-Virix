@@ -3,17 +3,19 @@ function Completions.path(text, space)
 end
 
 local path = api(2, {
-  type = 'choice',
-  options = {
-    get = {},
-    set = {
-      { name = "path", required = true }
-    },
-    add = {
-      { name = "path", required = true }
-    },
-    remove = {
-      { type = "path", name = "path", required = true }
+  {
+    type = 'choice',
+    options = {
+      get = {},
+      set = {
+        { name = "path", required = true }
+      },
+      add = {
+        { name = "path", required = true }
+      },
+      remove = {
+        { type = "path", name = "path", required = true }
+      }
     }
   }
 })
