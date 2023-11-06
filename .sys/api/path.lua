@@ -46,5 +46,23 @@ function path:set(path)
   return true, 'Successfully set system path.'
 end
 
+function path:execute(args, action, path)
+  local s, e = false, 'Invalid action.'
+  if action == 'get' then
+    print(table.concat(self:get(), ':'))
+    return
+  elseif action == 'set' then
+    s, e = self:set(path)
+  elseif action == 'add' then
+    s, e = self:add(path)
+  elseif action == 'remove' then
+    s, e = self:remove(path)
+  end
+  print(e)
+  if not s then
+    self:printUsage()
+  end
+end
+
 path:call(...)
 return path
