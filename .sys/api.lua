@@ -68,7 +68,7 @@ end
 
 function api:load()
   local apis = {}
-  for i, file in ipairs(fs.list('api')) do
+  for i, file in ipairs(fs.list('.sys/api')) do
     local name = string.match(fs.getName(file), '([^\.]+)')
     local api = require('api/'..name)
     if type(api) ~= 'table' or api.__priority == nil then
