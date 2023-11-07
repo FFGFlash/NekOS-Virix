@@ -97,8 +97,6 @@ function api:load()
     _G[name] = api()
     self.List[name] = _G[name]
   end
-
-  path:add('/.sys/api', 2)
 end
 
 function api:buildCompletions(tree)
