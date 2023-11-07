@@ -1,10 +1,10 @@
 local data = class()
 
 function data:constructor(path)
-  self.file = path
-  self.path = path
-  self.data = {}
-  self.json = false
+  rawset(self, 'file', path)
+  rawset(self, 'path', path)
+  rawset(self, 'data', {})
+  rawset(self, 'json', false)
 
   function self:exists()
     return fs.exists(rawget(self, 'path'))
@@ -15,10 +15,10 @@ function data:constructor(path)
   end
 
   function self:save()
-    local data = self.data
-    local s, e = pcall(function() data = self.json and json:stringify(data) or textutils.serialize(data, { compact = true }) end)
+    local data = self:raw()
+    local s, e = pcall(function() data = rawget(self, 'json') and json:stringify(data) or textutils.serialize(data, { compact = true }) end)
     if not s then return false, e end
-    local file = fs.open(self.path, 'w')
+    local file = fs.open(rawget(self, 'path'), 'w')
     file.write(data)
     file.close()
     return true
@@ -27,12 +27,14 @@ function data:constructor(path)
   function self:move(path, force)
     force = force or false
     if force then fs.delete(path) end
-    local s, e = pcall(function() fs.move(self.path, path) end)
+    local s, e = pcall(function() fs.move(rawget(self, 'path'), path) end)
     if not s then return false, e end
     return true
   end
 
-  self.loaded, self.error = self()
+  local loaded, err = self()
+  rawset(self, 'loaded', loaded)
+  rawset(self, 'error', err)
 end
 
 function data:__call()
