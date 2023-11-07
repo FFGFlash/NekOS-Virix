@@ -77,8 +77,9 @@ end
 function api:load()
   local apis = {}
   for i, file in ipairs(fs.list('.sys/api')) do
-    local name = string.match(fs.getName(file), '([^\.]+)')
-    local attr = fs.attributes('.sys/api/'..name)
+    local fname = fs.getName(file)
+    local attr = fs.attributes('.sys/api/'..fname)
+    local name = string.match(fname, '([^\.]+)')
     local api
     if attr.isDir then api = require('api/'..name..'/main')
     else api = require('api/'..name)
