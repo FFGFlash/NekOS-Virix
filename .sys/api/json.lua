@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 local json = api(0)
 
 function json:init()
@@ -89,7 +90,7 @@ function json:parse(str)
     elseif tonumber(f) ~= nil or self.numChars[f] then return parseNumber(s)
     elseif s:sub(1, 4) == 'true' or s:sub(1, 5) == 'false' then return parseBoolean(s)
     elseif f == '"' then return parseString(s)
-    elseif f == 'null' then return parseNull(s)
+    elseif s:sub(1, 4) == 'null' then return parseNull(s)
     end
     return nil
   end
