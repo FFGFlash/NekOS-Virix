@@ -2,7 +2,7 @@ function Completions.path(text, space)
   return Completions.choice(text, path:get(), space)
 end
 
-local path = api(2, {
+local path = api(0, {
   {
     type = 'choice',
     options = {

@@ -45,6 +45,9 @@ function system:init()
   config:define('nekos.colors.text', { description = 'System text color', default = 'white', type = 'string' })
   config:define('nekos.colors.background', { description = 'System background color', default = 'gray', type = 'string' })
   config:define('nekos.colors.completion', { description = 'System completion color', default = 'lightGray', type = 'string' })
+  config:define('nekos.colors.prompt', { description = 'System completion color', default = 'green', type = 'string' })
+
+  path:add('/.sys/programs', 3)
 end
 
 function system:getColor(key)
