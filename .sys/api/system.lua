@@ -38,3 +38,5 @@ function system:install()
   local s, e = github:download('ffgflash', 'NekOS-Virix', '/', '.sys', nil, true)
   return s, s and 'System installed.' or e
 end
+
+return system:call(...)
