@@ -25,7 +25,7 @@ function github:download(user, repo, dpath, rpath, branch, extract)
   local function downloadManager(path, files, dirs)
     files, dirs = files or {}, dirs or {}
     local ftype, fpath, fname = {}, {}, {}
-    local res = http.get(self.PROXY_URL..user..'/'..repo..'/content?branch='..branch..'&path='..path)
+    local res = http.get(self.PROXY_URL..user..'/'..repo..'/contents?branch='..branch..'&path='..path)
     if not res then return false, "Can't resolve download url." end
     res = res.readAll()
     if res ~= nil then
