@@ -23,7 +23,7 @@ end
 
 sleep(1)
 
-if settings:get('nekos.auto_update') then
+if config:get('nekos.auto_update') then
   local s, e = 'Checking for Updates'
   term.setCursorPos(math.floor((w - string.len(e)) / 2), math.floor(h / 2 + 2))
   term.clearLine()

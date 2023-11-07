@@ -40,15 +40,15 @@ function system:install()
 end
 
 function system:init()
-  settings:define('nekos.auto_update', { description = 'Whether the system should automatically update.', default = true, type = 'boolean' })
+  config:define('nekos.auto_update', { description = 'Whether the system should automatically update.', default = true, type = 'boolean' })
 
-  settings:define('nekos.colors.text', { description = 'System text color', default = 'white', type = 'string' })
-  settings:define('nekos.colors.background', { description = 'System background color', default = 'gray', type = 'string' })
-  settings:define('nekos.colors.completion', { description = 'System completion color', default = 'lightGray', type = 'string' })
+  config:define('nekos.colors.text', { description = 'System text color', default = 'white', type = 'string' })
+  config:define('nekos.colors.background', { description = 'System background color', default = 'gray', type = 'string' })
+  config:define('nekos.colors.completion', { description = 'System completion color', default = 'lightGray', type = 'string' })
 end
 
 function system:getColor(key)
-  local i = settings:info('nekos.colors.'..key)
+  local i = config:info('nekos.colors.'..key)
   if i.type ~= 'string' then return nil end
   return colors[i.value] or colors[i.default]
 end

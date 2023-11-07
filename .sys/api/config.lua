@@ -1,4 +1,4 @@
-local settingsApi = api(0, {
+local config = api(0, {
   {
     type = 'choice',
     options = {
@@ -16,7 +16,7 @@ local settingsApi = api(0, {
   }
 })
 
-function settingsApi:execute(args, action, setting, value)
+function config:execute(args, action, setting, value)
   local s, e = false, 'Unknown action provided.'
 
   if action == 'get' then s, e = self:get(setting)
@@ -33,25 +33,25 @@ function settingsApi:execute(args, action, setting, value)
   if not s then self:printUsage() end
 end
 
-function settingsApi:get(setting)
+function config:get(setting)
   settings.load('/.settings')
   if setting then return settings.get(setting) end
   return true
 end
 
-function settingsApi:set(setting, value)
+function config:set(setting, value)
   if setting then settings.set(setting, value) end
   settings.save('/.settings')
   return true
 end
 
-function settingsApi:info(setting)
+function config:info(setting)
   if not setting then return false, 'No key provided' end
   return settings.getDetails(key)
 end
 
-function settingsApi:define(setting, options)
+function config:define(setting, options)
   settings.define(setting, options)
 end
 
-return settingsApi:call(...)
+return config:call(...)
