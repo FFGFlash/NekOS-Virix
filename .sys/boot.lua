@@ -37,7 +37,7 @@ if config:get('nekos.auto_update') then
 
   sleep(3)
 
-  if s then os.reboot() end
+  if s and e == 'System updated.' then os.reboot() end
 end
 
 term.clear()
