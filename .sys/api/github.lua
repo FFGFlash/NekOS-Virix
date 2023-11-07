@@ -1,3 +1,5 @@
+if not http then return nil end
+
 local github = api(2, {
   {
     type = 'choice',
