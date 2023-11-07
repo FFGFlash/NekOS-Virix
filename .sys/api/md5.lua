@@ -172,5 +172,4 @@ function md5:hash(s)
   return string.format("%08x%08x%08x%08x", swap(a), swap(b), swap(c), swap(d))
 end
 
-md5:call(...)
-return md5
+return md5:call(...)
