@@ -10,12 +10,8 @@ function data:constructor(path)
     return fs.exists(rawget(self, 'path'))
   end
 
-  function self:raw()
-    return rawget(self, 'data')
-  end
-
   function self:save()
-    local data = self:raw()
+    local data = rawget(self, 'data')
     local s, e = pcall(function() data = rawget(self, 'json') and json:stringify(data) or textutils.serialize(data, { compact = true }) end)
     if not s then return false, e end
     local file = fs.open(rawget(self, 'path'), 'w')
