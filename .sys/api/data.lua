@@ -61,7 +61,9 @@ function data:__index(key)
 end
 
 function data:__newindex(key, value)
-  rawget(self, 'data')[key] = value
+  if type(value) == 'function' then rawset(self, key, value)
+  else rawget(self, 'data')[key] = value
+  end
 end
 
 return data
