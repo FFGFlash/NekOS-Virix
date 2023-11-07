@@ -55,4 +55,5 @@ function class(base)
   return setmetatable(klass, meta)
 end
 
+_G.class = class
 return class
