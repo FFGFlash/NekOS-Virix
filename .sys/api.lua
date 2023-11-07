@@ -33,7 +33,7 @@ function api:constructor(priority, completion)
     local argv = {...}
     if argv[1] and argv[2] and fs.getName(argv[1]..'.lua') == fs.getName(argv[2]) then
       self.__name = string.match(fs.getName(argv[2]), '([^\.]+)')
-      if not self.__completion then return end
+      if not self.__completion then return self end
       shell.setCompletionFunction(argv[2], self.__completion)
       return self
     elseif not self.execute then
