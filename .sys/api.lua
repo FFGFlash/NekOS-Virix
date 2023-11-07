@@ -77,8 +77,12 @@ end
 function api:load()
   local apis = {}
   for i, file in ipairs(fs.list('.sys/api')) do
+    local attr = fs.attributes(file)
     local name = string.match(fs.getName(file), '([^\.]+)')
-    local api = require('api/'..name)
+    local api
+    if attr.isDir then api = require('api/'..name..'/main')
+    else api = require('api/'..name)
+    end
     if type(api) ~= 'table' or api.__priority == nil then
       _G[name] = api
       self.List[name] = _G[name]
