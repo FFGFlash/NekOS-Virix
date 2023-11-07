@@ -47,7 +47,7 @@ end
 
 function config:info(setting)
   if not setting then return false, 'No key provided' end
-  return settings.getDetails(key)
+  return settings.getDetails(setting)
 end
 
 function config:define(setting, options)
