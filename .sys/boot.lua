@@ -42,25 +42,3 @@ end
 
 term.clear()
 term.setCursorPos(1, 1)
-
-local ok, err = pcall(function()
-  parallel.waitForAny(function()
-    local sShell = ".sys/programs/shell.lua"
-    os.run( {}, sShell )
-    os.run( {}, "rom/programs/shutdown.lua" )
-  end)
-end)
-
--- If the shell errored, let the user read it.
-term.redirect(term.native())
-if not ok then
-  printError(err)
-  pcall(function()
-    term.setCursorBlink(false)
-    print("Press any key to continue")
-    os.pullEvent("key")
-  end)
-end
-
--- End
-os.shutdown()

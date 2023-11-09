@@ -47,8 +47,7 @@ function system:init()
   config:define('nekos.colors.completion', { description = 'System completion color', default = 'lightGray', type = 'string' })
   config:define('nekos.colors.prompt', { description = 'System completion color', default = 'green', type = 'string' })
 
-  path:add('/.sys/programs', 2)
-  path:add('/.sys/api', 3)
+  path:add('/.sys/api', 2)
 end
 
 function system:getColor(key)
