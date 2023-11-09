@@ -29,7 +29,7 @@ function system:update()
   local newManifest, s, e
   newManifest, e = github:getRepo('ffgflash', 'NekOS-Virix')
   if not newManifest then return false, e end
-  if manifest.updated_at == newManifest.updated_at then return true, 'System up to date.' end
+  if manifest.pushed_at == newManifest.pushed_at then return true, 'System up to date.' end
   s, e = self:install()
   return s, s and 'System updated.' or e
 end
