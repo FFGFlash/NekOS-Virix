@@ -18,4 +18,18 @@ function fs.files(root)
   return dirs
 end
 
+function fs.recursiveFind(dir, file)
+  local files = {}
+
+  local function level(path)
+    table.combine(files, fs.find(path..'/'..file))
+    local dirs = fs.dirs(path)
+    for _, nDir in ipairs(dirs) do level(nDir) end
+  end
+
+  level(dir)
+
+  return files
+end
+
 return fs

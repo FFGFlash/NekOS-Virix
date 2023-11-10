@@ -1,6 +1,6 @@
 local class = require('class')
 
-function combine(t, o)
+local function combine(t, o)
   for i,v in ipairs(o) do table.insert(t, v) end
   return t
 end
