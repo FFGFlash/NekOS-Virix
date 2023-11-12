@@ -20,7 +20,6 @@ end
 
 function github:download(user, repo, dpath, rpath, branch, extract)
   if repo == nil or user == nil then return false, 'User and repo are required.' end
-  dpath, rpath, branch, extract = dpath or '/downloads/', rpath or '', branch or 'main', extract or false
 
   local function downloadManager(path, files, dirs)
     files, dirs = files or {}, dirs or {}
@@ -61,16 +60,22 @@ function github:download(user, repo, dpath, rpath, branch, extract)
     file.close()
   end
 
-  local res, err = downloadManager(rpath)
-  if not res then return res, err end
-  for path, data in pairs(res.files) do downloadFile(path, table.unpack(data)) end
+  
+  dpath, rpath, extract = dpath or '/downloads/', rpath or '', extract or false
 
-  local meta = self:getRepo(user, repo)
+  local meta, merr = self:getRepo(user, repo)
+  if not meta then return false, merr end
   local mpath = dpath..'/'
   if not extract then mpath = mpath..repo..'/' end
   local mfile = fs.open(mpath..'.manifest', 'w')
   mfile.write(json:stringify(meta, true))
   mfile.close()
+
+  branch = branch or meta.default_branch
+
+  local res, err = downloadManager(rpath)
+  if not res then return res, err end
+  for path, data in pairs(res.files) do downloadFile(path, table.unpack(data)) end
 
   return true
 end

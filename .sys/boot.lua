@@ -1,5 +1,4 @@
--- Prevents termination events
--- os.pullEvent = os.pullEventRaw
+os.pullEvent = os.pullEventRaw
 
 require('api')
 
