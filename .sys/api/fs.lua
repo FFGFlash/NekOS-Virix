@@ -24,7 +24,7 @@ function fs.recursiveFind(dir, file)
   local function level(path)
     table.combine(files, fs.find(path..'/'..file))
     local dirs = fs.dirs(path)
-    for _, nDir in ipairs(dirs) do level(nDir) end
+    for _, nDir in ipairs(dirs) do level(path..'/'..nDir) end
   end
 
   level(dir)
