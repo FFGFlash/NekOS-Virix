@@ -13,7 +13,7 @@ function events:constructor()
 
   function self:connect(event, callback)
     self.e[event] = self.e[event] or {}
-    table.insert(sel.fe[event], callback)
+    table.insert(self.e[event], callback)
     return { event = event, id = #self.e[event] }
   end
 
