@@ -96,7 +96,7 @@ function app:init()
         self:emit('stop')
       end
 
-      self:connect('terminate', self.stop)
+      self:connect('terminate', function() self:stop() end)
       if self.init then self:init(...) end
     end
 
