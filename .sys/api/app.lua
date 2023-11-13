@@ -79,8 +79,8 @@ function app:init()
         self.running = true
         while self.running do
           local function drawLoop()
-            if not self.draw then return end
-            self:draw()
+            if not appBase.draw then return end
+            appBase.draw(self)
           end
 
           local function eventLoop()
@@ -97,7 +97,7 @@ function app:init()
       end
 
       self:connect('terminate', function() self:stop() end)
-      if self.init then self:init(...) end
+      if appBase.init then appBase.init(self, ...) end
     end
 
     return appBase
