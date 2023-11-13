@@ -59,21 +59,21 @@ function app:run(app, flags, ...)
     self:update(app)
     manifest()
   end
-  local inst = require(app)(app, flags, ...)
-  inst:start()
-  return true, 'App running'
+  local inst = require(app)
+  table.insert(self.instances, inst)
+  inst(flags, ...)
+  return true, 'App finished'
 end
 
 function app:init()
-  self.updateMap = data('.app_update_map')
+  self.instances = {}
 
   function self:init()
     local appBase = class(events)
 
-    function appBase:constructor(id, ...)
+    function appBase:constructor()
       self.super()
       self.running = false
-      self.id = id
 
       function self:start()
         self.running = true
@@ -97,14 +97,14 @@ function app:init()
       end
 
       self:connect('terminate', function() self:stop() end)
+    end
+
+    function appBase:__call(...)
       if self.init then self.init(self, ...) end
+      self:start()
     end
 
-    function self:__index(key)
-      return rawget(self, key) or getmetatable(self)[key]
-    end
-
-    return appBase
+    return appBase()
   end
 end
 

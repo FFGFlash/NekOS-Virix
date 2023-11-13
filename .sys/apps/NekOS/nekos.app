@@ -11,8 +11,4 @@ function nekos:draw()
   term.setCursorPos(1,1)
 end
 
-function nekos:cleanup()
-
-end
-
 return nekos
