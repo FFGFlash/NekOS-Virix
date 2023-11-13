@@ -106,12 +106,12 @@ end
 
 function app:execute(flags, action, ...)
   local s, e = false, "Invalid Action"
-  if action == 'install' then self:install(...)
-  elseif action == 'uninstall' then self:uninstall(...)
-  elseif action == 'update' then self:update(...)
+  if action == 'install' then s, e = self:install(...)
+  elseif action == 'uninstall' then s, e = self:uninstall(...)
+  elseif action == 'update' then s, e = self:update(...)
   elseif action == 'run' then
     local args = {...}
-    self:run(table.remove(args, 1), flags, table.unpack(args))
+    s, e = self:run(table.remove(args, 1), flags, table.unpack(args))
   end
   print(e)
   if not s then self:printUsage() end
