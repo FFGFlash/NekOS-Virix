@@ -62,4 +62,8 @@ function data:__newindex(key, value)
   end
 end
 
+function data:__len()
+  return #rawget(self, 'data')
+end
+
 return data

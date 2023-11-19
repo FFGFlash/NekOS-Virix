@@ -1,3 +1,11 @@
+local function parseValue(s)
+  local n = tonumber(s)
+  if n then return n end
+  local b = s == 'true' or s == 'false'
+  if b then return s == 'true' end
+  return s
+end
+
 local config = api(0, {
   {
     type = 'choice',
@@ -20,7 +28,7 @@ function config:execute(args, action, setting, value)
   local s, e = false, 'Unknown action provided.'
 
   if action == 'get' then s, e = self:get(setting)
-  elseif action == 'set' then s, e = self:set(setting, value)
+  elseif action == 'set' then s, e = self:set(setting, parseValue(value))
   elseif action == 'info' then
     s, e = self:info(setting)
     if s then
@@ -52,6 +60,10 @@ end
 
 function config:define(setting, options)
   settings.define(setting, options)
+end
+
+function config:init()
+  self:get()
 end
 
 return config:call(...)
