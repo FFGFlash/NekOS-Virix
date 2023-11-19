@@ -2,40 +2,7 @@ function Completions.app(text, space)
   return Completions.choice(text, app:getApps(), space)
 end
 
-local appBase = class(events)
-
-function appBase:constructor()
-  self.super()
-  self.running = false
-
-  function self:start()
-    self.running = true
-    while self.running do
-      local function drawLoop()
-        if not self.draw then return end
-        self.draw(self)
-      end
-
-      local function eventLoop()
-        self:handleEvents()
-      end
-
-      parallel.waitForAll(drawLoop, eventLoop)
-    end
-  end
-
-  function self:stop()
-    self.running = false
-    self:emit('stop')
-  end
-
-  self:connect('terminate', function() self:stop() end)
-end
-
-function appBase:__call(...)
-  if self.init then self.init(self, ...) end
-  self:start()
-end
+local appBase
 
 local app = api(2, {
   {
@@ -109,6 +76,41 @@ end
 
 function app:init()
   self.instances = {}
+
+  appBase = class(events)
+
+  function appBase:constructor()
+    self.super()
+    self.running = false
+
+    function self:start()
+      self.running = true
+      while self.running do
+        local function drawLoop()
+          if not self.draw then return end
+          self.draw(self)
+        end
+
+        local function eventLoop()
+          self:handleEvents()
+        end
+
+        parallel.waitForAll(drawLoop, eventLoop)
+      end
+    end
+
+    function self:stop()
+      self.running = false
+      self:emit('stop')
+    end
+
+    self:connect('terminate', function() self:stop() end)
+  end
+
+  function appBase:__call(...)
+    if self.init then self.init(self, ...) end
+    self:start()
+  end
 
   function self:init()
     return appBase()
