@@ -62,7 +62,8 @@ function app:run(app, flags, ...)
     manifest()
   end
   local pwd = fs.getDir(app)
-  local inst = loadfile(app)(pwd, flags, ...)
+  package.loaded[app] = nil
+  local inst = require(app)
   if inst then
     table.insert(self.instances, inst)
     if type(inst) == 'table' then

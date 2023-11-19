@@ -7,12 +7,12 @@ function nekos:init(pwd, ...)
   local viewsPath = fs.combine(pwd, 'views')
   for _, view in ipairs(fs.files(viewsPath)) do
     local name = string.match(fs.getName(view), "([^\.]+)")
-    self.views[name] = loadfile(fs.combine(viewsPath, view))(self, pwd, ...)
+    local path = fs.combine(viewsPath, view)
+    package.loaded[path] = nil
+    self.views[name] = require(path)(self, pwd, ...)
   end
 
-  local hasAccount = account:hasAccounts()
-
-  self:setView(hasAccount and "setup" or "login")
+  self:setView(self.user:exists() and "login" or "setup")
 
   -- self:disconnectAll("terminate")
 end

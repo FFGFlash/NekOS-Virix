@@ -1,5 +1,4 @@
-local app, pwd = ...
-local view = require('../view')(app)
+local view = require('../view')()
 
 function view:build()
   self.app.user()

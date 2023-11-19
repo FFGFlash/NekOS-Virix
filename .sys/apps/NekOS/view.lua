@@ -1,7 +1,7 @@
 local view = class()
 
-function view:constructor(app)
-  self.app = app
+function view:constructor()
+  self.app = nil
   self.connections = {}
 
   function self:connect(event, callback, this)
@@ -15,6 +15,12 @@ function view:constructor(app)
     for _, conn in ipairs(self.connections) do self.app:disconnect(conn)
     end
   end
+end
+
+function view:__call(app, pwd, ...)
+  self.app = app
+  self.pwd = pwd
+  if self.init then self:init(...) end
 end
 
 return view
