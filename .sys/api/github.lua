@@ -11,7 +11,7 @@ local github = api(2, {
 
 function github:getRepo(user, repo)
   if repo == nil or user == nil then return false, 'User and repo are required.' end
-  local proxy_url = system:getConfig('nekos.api') .. '/github/'
+  local proxy_url = config:get('nekos.api') .. '/github/'
   local res = http.get(proxy_url .. user .. '/' .. repo)
   if not res then return false, "Can't resolve manifest url." end
   return json:fromStream(res)
@@ -20,7 +20,7 @@ end
 function github:download(user, repo, dpath, rpath, branch, extract)
   if repo == nil or user == nil then return false, 'User and repo are required.' end
 
-  local proxy_url = system:getConfig('nekos.api') .. '/github/'
+  local proxy_url = config:get('nekos.api') .. '/github/'
 
   local function downloadManager(path, files, dirs)
     files, dirs = files or {}, dirs or {}
@@ -40,8 +40,10 @@ function github:download(user, repo, dpath, rpath, branch, extract)
         local cpath = http.get(proxy_url .. user .. '/' .. repo .. '/' .. branch .. '?path=' .. fpath[i])
         if cpath == nil then fpath[i] = fpath[i] .. '/' .. fname[i] end
         path = path .. fpath[i]
-        if not files[path] then files[path] = { proxy_url .. user .. '/' .. repo .. '/' .. branch .. '?path=' .. fpath
-          [i], fname[i] } end
+        if not files[path] then
+          files[path] = { proxy_url .. user .. '/' .. repo .. '/' .. branch .. '?path=' .. fpath
+          [i], fname[i] }
+        end
       elseif data == 'dir' then
         path = path .. fpath[i]
         if not dirs[path] then
