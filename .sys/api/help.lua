@@ -6,7 +6,10 @@ function help:execute(args, program, ...)
   if not program then
     print('Welcome to NekOS')
     for name, program in pairs(api.List) do
-      if program.printUsage then program:printUsage()
+      if type(program) == 'table' then
+        if program.printUsage then
+          program:printUsage()
+        end
       end
     end
   else
